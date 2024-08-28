@@ -1,31 +1,26 @@
 import { getServerURL } from "./task1.js";
 
-import fetch from "node-fetch";
+// Function to format a user object without quotes
+function formatUser(user) {
+  return `{\n  id: ${user.id},\n  first_name: '${user.first_name}',\n  last_name: '${user.last_name}',\n  email: '${user.email}'\n}`;
+}
 
 export async function listUsers() {
-  // Haz una solicitud HTTP GET al servidor para obtener la lista de usuarios
-  const url = getServerURL();
-  const response = await fetch(url+"/users");
+  // Get the server URL
+  const serverURL = getServerURL();
 
-  // Convierte la respuesta en un objeto JavaScript, en este caso, un array de usuarios
+  // Make an HTTP GET request to fetch the list of users
+  const response = await fetch(`${serverURL}/users`);
+
+  // Convert the response into an array of users
   const users = await response.json();
 
-  // Recorre el array de usuarios y crea un string formateado para cada uno
-  const formattedUsers = users
-    .map(
-      (user) =>
-        `{\n  id: ${user.id},\n  first_name: '${user.first_name}',\n  last_name: '${user.last_name}',\n  email: '${user.email}'\n}`
-    )
-    .join(",\n");
+  // Format each user as a string without quotes
+  const formattedUsers = users.map(formatUser);
 
-  // Imprime en la consola el array de usuarios formateado como un string
-  return console.log(`[\n${formattedUsers}\n]`);
+  // Combine the formatted user strings into a single string with line breaks
+  const output = `[\n${formattedUsers.join(",\n")}\n]`;
+
+  // Print the formatted result to the console
+  console.log(output);
 }
-// import { getServerURL } from "./task1.js";
-
-// export async function listUsers() {
-//   fetch(getServerURL)
-//     .then((response) => response.json())// convertir a json
-//     .then((json) => console.log(json)); //imprimir los datos en la consola
-// }
-// // Solicitud GET (Request)

@@ -1,93 +1,43 @@
-// import { getServerURL } from "./task1.js";
-
-// // Función para agregar un nuevo usuario
-// //addUser("Esteban", "Cano", "Esteba@");
-// export async function addUser(first_name, last_name, email) {
-//   // Obtener la URL del servidor
-//   const url = getServerURL();
-
-//   // Hacer una solicitud GET para obtener la lista de usuarios
-//   // "http://localhost:3000/users";
-//   const response = await fetch(url + "/users");
-
-//   // Convertir la respuesta en un array de usuarios
-//   const users = await response.json();
-
-//   // Encontrar el ID más alto actual en la lista de usuarios
-//   // Convertir los IDs a números antes de comparar
-//   // users.length ->
-//   const maxId = users.reduce((max, user) => Math.max(max, Number(user.id)), 0);
-
-//   // Calcular el nuevo ID (el máximo actual + 1)
-//   const newId = maxId + 1;
-
-//   // Crear un objeto con el nuevo usuario, incluyendo el nuevo ID
-//   const newUser = {
-//     id: String(newId),
-//     first_name,
-//     last_name,
-//     email,
-//   };
-
-//   // Hacer una solicitud POST para agregar el nuevo usuario
-//   const postResponse = await fetch(url + "/users", {
-//     method: "POST", // Método de solicitud POST para crear un nuevo recurso
-//     headers: {
-//       "Content-Type": "application/json", // Indicamos que el contenido es JSON
-//     },
-//     body: JSON.stringify(newUser), // Convertir el nuevo usuario a formato JSON para enviarlo
-//   });
-
-//   // Convertir la respuesta en el objeto del usuario agregado
-//   const addedUser = await postResponse.json();
-
-//   console.log(object);
-
-//   return addedUser;
-// }
-
 import { getServerURL } from "./task1.js";
 
-// Función para agregar un nuevo usuario
+// Function to add a new user
 export async function addUser(first_name, last_name, email) {
-  // Obtener la URL del servidor
+  // Get the server URL
   const url = getServerURL();
 
-  // Hacer una solicitud GET para obtener la lista de usuarios
+  // Make a GET request to retrieve the list of users
   const response = await fetch(url + "/users");
 
-  // Convertir la respuesta en un array de usuarios
+  // Convert the response into an array of users
   const users = await response.json();
 
-  // Encontrar el ID más alto actual en la lista de usuarios
-  // Convertir los IDs a números antes de comparar
+  // Find the current highest ID in the list of users
+  // Convert IDs to numbers before comparing
   const maxId = users.reduce((max, user) => Math.max(max, Number(user.id)), 0);
 
-  // Calcular el nuevo ID (el máximo actual + 1)
+  // Calculate the new ID (the current highest ID + 1)
   const newId = maxId + 1;
 
-  // Crear un objeto con el nuevo usuario, incluyendo el nuevo ID
+  // Create an object with the new user, including the new ID
   const newUser = {
-    id: newId, // Mantener ID como número
+    id: newId, // Keep ID as a number
     first_name,
     last_name,
     email,
   };
 
-  // Hacer una solicitud POST para agregar el nuevo usuario
+  // Make a POST request to add the new user
   const postResponse = await fetch(url + "/users", {
-    method: "POST", // Método de solicitud POST para crear un nuevo recurso
+    method: "POST", // POST method to create a new resource
     headers: {
-      "Content-Type": "application/json", // Indicamos que el contenido es JSON
+      "Content-Type": "application/json", // Indicate that the content is JSON
     },
-    body: JSON.stringify(newUser), // Convertir el nuevo usuario a formato JSON para enviarlo
+    body: JSON.stringify(newUser), // Convert the new user to JSON format for sending
   });
 
-  // Convertir la respuesta en el objeto del usuario agregado
+  // Convert the response to the added user's object
   const addedUser = await postResponse.json();
+  const endUser = JSON.parse(JSON.stringify(addedUser, null, 2)); // Format the user object for display
 
-  // Imprimir en consola el usuario que se ha agregado en el formato exacto esperado
-  return console.log(`
-    {\n  id: ${addedUser.id},\n  first_name: '${addedUser.first_name}',\n  last_name: '${addedUser.last_name}',\n  email: '${addedUser.email}'\n}
-   `);
+  return console.log(endUser);
 }
