@@ -37,7 +37,7 @@ export async function addUser(first_name, last_name, email) {
 
   // Convert the response to the added user's object
   const addedUser = await postResponse.json();
-  const endUser = JSON.parse(JSON.stringify(addedUser, null, 2)); // Format the user object for display
+  const output = JSON.parse(JSON.stringify(addedUser, null, 2)); // Format the user object for display
 
-  return console.log(endUser);
+  return console.log(output);
 }
