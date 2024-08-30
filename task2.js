@@ -1,26 +1,33 @@
 import { getServerURL } from "./task1.js";
 
-// Function to format a user object without quotes
-function formatUser(user) {
-  return `{\n  id: ${user.id},\n  first_name: '${user.first_name}',\n  last_name: '${user.last_name}',\n  email: '${user.email}'\n}`;
-}
-
+// Function to fetch and list users from the API endpoint
 export async function listUsers() {
-  // Get the server URL
-  const serverURL = getServerURL();
+  // Retrieve the server URL by calling the imported getServerURL function
+  const url = getServerURL();
 
-  // Make an HTTP GET request to fetch the list of users
-  const response = await fetch(`${serverURL}/users`);
+  // Step 1: Make a GET request to fetch the list of users from the API
+  const response = await fetch(`${url}/users`);
+  // The response is expected to be a JSON array of user objects
 
-  // Convert the response into an array of users
+  // Step 2: Parse the JSON response to extract user data
   const users = await response.json();
 
-  // Format each user as a string without quotes
-  const formattedUsers = users.map(formatUser);
+  // Step 3: Format each user object into a specific string representation
+  const formattedUsers = users.map(
+    (user) => `{
+  id: ${user.id},
+  first_name: '${user.first_name}',
+  last_name: '${user.last_name}',
+  email: '${user.email}'
+}`
+  );
+  // The map function transforms each user object into a formatted string with properties
+  // The resulting array will contain user strings in the specified format
 
-  // Combine the formatted user strings into a single string with line breaks
+  // Step 4: Convert the array of formatted user strings into a single string
+  // Each formatted user is separated by a comma and newline for readability
   const output = `[\n${formattedUsers.join(",\n")}\n]`;
 
-  // Print the formatted result to the console
-  console.log(output);
+  // Step 5: Log the final formatted string to the console
+  return console.log(output);
 }
